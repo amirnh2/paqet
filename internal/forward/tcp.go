@@ -5,10 +5,12 @@ import (
 	"net"
 	"paqet/internal/flog"
 	"paqet/internal/pkg/buffer"
+
+	reuse "github.com/libp2p/go-reuseport"
 )
 
 func (f *Forward) listenTCP(ctx context.Context) error {
-	listener, err := net.Listen("tcp", f.listenAddr)
+	listener, err := reuse.Listen("tcp", f.listenAddr)
 	if err != nil {
 		flog.Errorf("failed to bind TCP socket on %s: %v", f.listenAddr, err)
 		return err
